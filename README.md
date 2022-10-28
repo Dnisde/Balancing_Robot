@@ -1,6 +1,6 @@
 # Balancing_Robot
 
-### This is the Repository about final proejct of EC545 - Boston University.
+### This is the Repository about final project of EC545 - Boston University.
 
 Team: Arduino Self-Balancing Robot: 
 
