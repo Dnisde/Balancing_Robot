@@ -65,7 +65,7 @@ void setMotionState()
       setting_turn_speed = 0;
       break;
     default:
-      setting_car_speed = 40;
+      setting_car_speed = 10;
       setting_turn_speed = 0;
       break;
     }
@@ -89,7 +89,7 @@ void setMotionState()
       setting_turn_speed = 0;
       break;
     default:
-      setting_car_speed = -40;
+      setting_car_speed = -10;
       setting_turn_speed = 0;
       break;
     }
@@ -209,9 +209,13 @@ void keyEventHandle()
       motion_mode = TURNRIGHT;
       break;
     case '1':
-      function_mode = FOLLOW;
-      follow_flag = 0;
-      follow_prev_time = millis();
+      // function_mode = FOLLOW;
+      // follow_flag = 0;
+      // follow_prev_time = millis();
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '2':
       function_mode = OBSTACLE;
@@ -219,103 +223,139 @@ void keyEventHandle()
       obstacle_avoidance_prev_time = millis();
       break;
     case '3':
-    rgb_loop:
-      key_value = '\0';
-      rgb.flag++;
-      if (rgb.flag > 6)
-      {
-        rgb.flag = 1;
-      }
-      switch (rgb.flag)
-      {
-      case 0:
-        break;
-      case 1:
-        if (rgb.theaterChaseRainbow(50) && key_value == '3')
-          goto rgb_loop;
-        break;
-      case 2:
-        if (rgb.rainbowCycle(20) && key_value == '3')
-          goto rgb_loop;
-        break;
-      case 3:
-        if (rgb.theaterChase(127, 127, 127, 50) && key_value == '3')
-          goto rgb_loop;
-        break;
-      case 4:
-        if (rgb.rainbow(20) && key_value == '3')
-          goto rgb_loop;
-        break;
-      case 5:
-        if (rgb.whiteOverRainbow(20, 30, 4) && key_value == '3')
-          goto rgb_loop;
-        break;
-      case 6:
-        if (rgb.rainbowFade2White(3, 50, 50) && key_value == '3')
-          goto rgb_loop;
-        break;
-        break;
-      default:
-        break;
-      }
+    // rgb_loop:
+    //   key_value = '\0';
+    //   rgb.flag++;
+    //   if (rgb.flag > 6)
+    //   {
+    //     rgb.flag = 1;
+    //   }
+    //   switch (rgb.flag)
+    //   {
+    //   case 0:
+    //     break;
+    //   case 1:
+    //     if (rgb.theaterChaseRainbow(50) && key_value == '3')
+    //       goto rgb_loop;
+    //     break;
+    //   case 2:
+    //     if (rgb.rainbowCycle(20) && key_value == '3')
+    //       goto rgb_loop;
+    //     break;
+    //   case 3:
+    //     if (rgb.theaterChase(127, 127, 127, 50) && key_value == '3')
+    //       goto rgb_loop;
+    //     break;
+    //   case 4:
+    //     if (rgb.rainbow(20) && key_value == '3')
+    //       goto rgb_loop;
+    //     break;
+    //   case 5:
+    //     if (rgb.whiteOverRainbow(20, 30, 4) && key_value == '3')
+    //       goto rgb_loop;
+    //     break;
+    //   case 6:
+    //     if (rgb.rainbowFade2White(3, 50, 50) && key_value == '3')
+    //       goto rgb_loop;
+    //     break;
+    //     break;
+    //   default:
+    //     break;
+    //   }
+    //   break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '4':
-      function_mode = IDLE;
-      motion_mode = STOP;
-      carBack(110);
-      delay((kalmanfilter_angle - 30) * (kalmanfilter_angle - 30) / 8);
-      carStop();
-      start_prev_time = millis();
-      rgb.brightRedColor();
+      // function_mode = IDLE;
+      // motion_mode = STOP;
+      // carBack(110);
+      // delay((kalmanfilter_angle - 30) * (kalmanfilter_angle - 30) / 8);
+      // carStop();
+      // start_prev_time = millis();
+      // rgb.brightRedColor();
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '5':
-      if (millis() - start_prev_time > 500 && kalmanfilter_angle >= balance_angle_min)
-      {
-        start_prev_time = millis();
-        motion_mode = START;
-      }
-      motion_mode = START;
+      // if (millis() - start_prev_time > 500 && kalmanfilter_angle >= balance_angle_min)
+      // {
+      //   start_prev_time = millis();
+      //   motion_mode = START;
+      // }
+      // motion_mode = START;
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '6':
-      rgb.brightness = 50;
-      rgb.setBrightness(rgb.brightness);
-      rgb.show();
+      // rgb.brightness = 50;
+      // rgb.setBrightness(rgb.brightness);
+      // rgb.show();
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '7':
-      rgb.brightRedColor();
-      rgb.brightness -= 25;
-      if (rgb.brightness <= 0)
-      {
-        rgb.brightness = 0;
-      }
-      rgb.setBrightness(rgb.brightness);
-      rgb.show();
+      // rgb.brightRedColor();
+      // rgb.brightness -= 25;
+      // if (rgb.brightness <= 0)
+      // {
+      //   rgb.brightness = 0;
+      // }
+      // rgb.setBrightness(rgb.brightness);
+      // rgb.show();
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '8':
-      rgb.brightRedColor();
-      rgb.brightness += 25;
-      if (rgb.brightness >= 255)
-      {
-        rgb.brightness = 255;
-      }
-      rgb.setBrightness(rgb.brightness);
-      rgb.show();
+      // rgb.brightRedColor();
+      // rgb.brightness += 25;
+      // if (rgb.brightness >= 255)
+      // {
+      //   rgb.brightness = 255;
+      // }
+      // rgb.setBrightness(rgb.brightness);
+      // rgb.show();
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '9':
-      rgb.brightness = 0;
-      rgb.setBrightness(rgb.brightness);
-      rgb.show();
+      // rgb.brightness = 0;
+      // rgb.setBrightness(rgb.brightness);
+      // rgb.show();
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '0':
-      function_mode = FOLLOW2;
-      follow_flag = 0;
-      follow_prev_time = millis();
+      // function_mode = FOLLOW2;
+      // follow_flag = 0;
+      // follow_prev_time = millis();
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     case '*':
       break;
     case '#':
       break;
     default:
+      // break;
+      function_mode = OBSTACLE;
+      obstacle_avoidance_flag = 0;
+      obstacle_avoidance_prev_time = millis();
       break;
     }
     if (key_flag == key_value)
@@ -346,14 +386,13 @@ void loop()
   setMotionState();
   functionMode();
   checkObstacle();
-  x_error = Serial.read();
-  x_error_value = atof(x_error);
   rgb.blink(100);
+
   static unsigned long print_time;
   if (millis() - print_time > 100)
   {
     print_time = millis();
-   Serial.println(kalmanfilter.angle);
+    // Serial.println(kalmanfilter.angle);
   }
   static unsigned long start_time;
   if (millis() - start_time < 10)
@@ -364,6 +403,18 @@ void loop()
   }
   if (millis() - start_time == 2000) // Enter the pendulum, the car balances...
   {
-    key_value = '5';
+    // key_value = '5';
+    if (millis() - start_prev_time > 500 && kalmanfilter_angle >= balance_angle_min)
+      {
+        start_prev_time = millis();
+        motion_mode = START;
+      }
+    motion_mode = START;
   }
+
+  if (millis() - start_time == 5000) // Enter the OBSTACLE AVOIDANCE MODE after 5 seconds...
+  {
+    key_value = '1';
+  }
+  
 }

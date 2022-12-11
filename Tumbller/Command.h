@@ -27,8 +27,10 @@ bool getKeyValue()
     switch (key_mode)
     {
     case 0:
-      key_value = 's';
-      function_mode = IDLE;
+      // key_value = 's';
+      // function_mode = IDLE;
+      key_value = '1';
+      function_mode = FOLLOW;
       break;
     case 1:
       key_value = '1';
@@ -61,14 +63,12 @@ bool getBluetoothData()
   if (Serial.available())
   {
     char c = Serial.read();
-    //Serial.print("data:"); Serial.println(c); 
     if (c != '\0' && c != '\n')
     {
       key_value = c;
       if (c == 'f' || c == 'b' || c == 'l' || c == 'i')
       {
         function_mode = BLUETOOTH;
-        //Serial.print("Bluetooth mode set"); 
       }
       if (c == 's')
       {

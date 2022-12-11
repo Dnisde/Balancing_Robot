@@ -5,6 +5,7 @@
  * @LastEditTime: 2019-10-10 14:24:57
  * @LastEditors: Please set LastEditors
  */
+
 bool left_flag[10] = {false};
 unsigned char left_count_flag = 0;
 unsigned char left_index = 0;
@@ -39,9 +40,10 @@ unsigned long right_test_time = 0;
 bool right_test_flag = false;
 bool right_is_obstacle = false;
 
-char x_error;
-float x_error_value = 0;
-float center_value = 0;
+// float x_error_value = 0;
+// float center_value = 60;
+
+String turn_decision;
 
 void rightFilter(bool value)
 {
@@ -308,12 +310,13 @@ void followMode()
     }
     else if (millis() - follow_prev_time >= 500)
     {
-      if (x_error_value < -center_value || x_error_value > center_value)
+      if (turn_decision == "1" || turn_decision == "2")
       // if (left_is_obstacle || right_is_obstacle)
       {
         follow_flag = 1;
       }
-      else
+      else if (turn_decision == "0")
+      // else
       {
         if (distance_value > distance_min && distance_value < distance_max)
         {
@@ -327,30 +330,29 @@ void followMode()
     }
     break;
   case 1:
-    if (x_error_value > center_value)
+    if (turn_decision == "1")
     // if (left_is_obstacle && !right_is_obstacle)
     {
       rgb.flashGreenColorLeft();
       motion_mode = TURNLEFT;
     }
-    else if (x_error_value < -center_value)
+    else if (turn_decision == "2")
     // else if (!left_is_obstacle && right_is_obstacle)
     {
       rgb.flashGreenColorRight();
       motion_mode = TURNRIGHT;
     }
-    else if (x_error_value >= -center_value && x_error_value <= center_value)
-    // else if (left_is_obstacle && right_is_obstacle)
-    {
-      rgb.flashGreenColorFront();
-      motion_mode = FORWARD;
-    }
-    else
-    {
-      follow_flag = 0;
-      motion_mode = STANDBY;
-      rgb.brightGreenColor();
-    }
+    // // else if (left_is_obstacle && right_is_obstacle)
+    // {
+    //   rgb.flashGreenColorFront();
+    //   motion_mode = FORWARD;
+    // }
+    // else
+    // {
+    //   follow_flag = 0;
+    //   motion_mode = STANDBY;
+    //   rgb.brightGreenColor();
+    // }
     break;
   case 2:
     if (distance_value > distance_min && distance_value < distance_max)

@@ -6,7 +6,7 @@ enum FUNCTION_MODE
   FOLLOW,
   BLUETOOTH,
   FOLLOW2,
-} function_mode = IDLE;
+} function_mode = FOLLOW;
 
 enum MOTION_MODE
 {
