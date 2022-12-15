@@ -122,31 +122,6 @@ class Object_Recognition:
                 self.valx = round(self.valx,2) 
                 self.valy = round(self.valy,2)
 
-                # if abs(self.error_x) < 20:
-                #     self.instruction = 0;
-
-                # else:
-                #     # Left is negative, Right is positive.
-                #     if abs(self.valx) > 0.5:
-                #         sign = self.valx / abs(self.valx)
-                #         self.valx = 0.5 * sign
-                #         if self.valx < 0:
-                #             self.instruction = 5
-                #         else if(self.valx > 0):
-                #             self.instruction = 4
-
-                #     self.instruction = self.valx
-                 
-                # if abs(error_y) < 20:
-                #     self.instruction = 0
-
-                # else:
-                #     if abs(valy) > 0.5:
-                #         sign = valy / abs(valy)
-                #         valy = 0.5 * sign
-
-                #     self.instruction = valy
-
                 # Left: Value is too negative.
                 if (self.valx <= -self.threshold):
                     # Turn slightly left:
@@ -169,8 +144,8 @@ class Object_Recognition:
 
 
             if(self.finished == True):
-                await self.sendTO_Arduino(0.5)
-                # print(f"PixelErrorx={self.error_x}, {self.valx}\n")
+                # Do nothing for 10 milliseconds (0.01 seconds)
+                await self.sendTO_Arduino(0.01)
 
                 
             cv2.imshow('frame',frame) #display image
@@ -186,9 +161,7 @@ class Object_Recognition:
 
         self.ser.flush();
 
-        send_Xerror = (f"{self.instruction}\n")
-        # send_Xerror = (f"PixelErrorx={self.error_x}, {self.valx}\n")
-        # send_Yerror = (f"PixelErrory={self.error_y}, {self.valy}\n")
+        send_Xerror = (f"{self.error_x}\n")
 
         # Send the string. Make sure you encode it before you send it to the Arduino.
         self.ser.write(send_Xerror.encode('utf-8'))
@@ -201,7 +174,6 @@ class Object_Recognition:
         # Print the data received from Arduino to the terminal
         print(receive_string)
 
-        # Do nothing for 10 milliseconds (0.01 seconds)
         time.sleep(delay)
 
 
