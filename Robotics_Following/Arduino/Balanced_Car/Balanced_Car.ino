@@ -1,0 +1,45 @@
+#include "Motor.h"
+#include "Balanced.h"
+#include "Follow1.h"
+
+Timer2 Timer2;
+extern Mpu6050 Mpu6050;
+extern Motor Motor;
+extern Balanced Balanced;
+extern Ultrasonic Ultrasonic;
+extern IR IR;
+Function Function;
+
+double signal = 0.0;
+// int signal = 6;
+
+void setup() 
+{
+  Motor.Pin_init();
+  IR.Pin_init();
+  Ultrasonic.Pin_init();
+  Motor.Encoder_init();
+  Timer2.init(TIMER);
+  Mpu6050.init();
+  Serial.begin(9600);
+  delay(100);
+}
+
+void loop() 
+{  
+ 
+  if (Serial.available() > 0) {
+    // Received from Raspberry pi: 
+    String error = Serial.readStringUntil('\n');
+    Ultrasonic::errorValue = error.toDouble();
+    
+    /** DEBUG ONLY: **/
+    // Serial.println(Ultrasonic::errorValue); 
+    // Serial.println(String(Function.FineTuning()));
+    // delayfor(5);
+    Serial.flush();
+  }
+  
+  Function.Follow_Mode1();
+  
+}
