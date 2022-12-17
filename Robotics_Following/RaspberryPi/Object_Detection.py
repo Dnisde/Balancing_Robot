@@ -32,7 +32,7 @@ class Object_Recognition:
 
         self.threshold = 0.5
         self.instruction = 6
-         
+
         #initialize some other required vaqriables for PID controller Calculation:
         self.integral_x, self.integral_y = 0, 0
         self.differential_x, self.differential_y = 0, 0
@@ -51,12 +51,12 @@ class Object_Recognition:
 
 
     def intialize(self):
-        # Camera Settings: 
+        # Camera Settings:
         self.camera.resolution = (self.width, self.height)
         self.camera.framerate = 30
         self.camera.configure(self.camera.create_preview_configuration(main={"size": (self.width, self.height)}))
 
-        # Warm up Raspi Camera: 
+        # Warm up Raspi Camera:
         self.camera.start()
         time.sleep(1)
 
@@ -73,16 +73,16 @@ class Object_Recognition:
             # Read frame by each stream in nano seconds.
             frame = self.camera.capture_array()
 
-            # Flip the frame by opposite way to 
+            # Flip the frame by opposite way to
             frame = cv2.flip(frame,1)
 
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
+            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             faces = self.face_cascade.detectMultiScale(rgb,1.3,5)
 
             self.detected = False
             self.finished = False
 
-            # Extract the face rectangle from each frame of video (.per ts), 
+            # Extract the face rectangle from each frame of video (.per ts),
             # Get the face position of the detected face(If detected), and record that coordinate: x,y,w,h
             for(x,y,w,h) in faces:
                 self.x = x
@@ -101,26 +101,20 @@ class Object_Recognition:
                 face_centre_x = self.x + self.w / 2
                 face_centre_y = self.y + self.h / 2
 
-                # Amount of pixels to move 
+                # Amount of pixels to move
                 self.error_x = (self.width / 2) - face_centre_x
 
-                self.error_y = (self.height / 2) - face_centre_y
-                
                 self.integral_x = self.integral_x + self.error_x
-                self.integral_y = self.integral_y + self.error_y
-                 
+
                 self.differential_x = self.prev_x - self.error_x
-                self.differential_y = self.prev_y - self.error_y
-                 
+
+
                 self.prev_x = self.error_x
-                self.prev_y = self.error_y
 
                 self.valx = self.Px * self.error_x + self.Dx * self.differential_x + self.Ix * self.integral_x
-                self.valy = self.Py * self.error_y + self.Dy * self.differential_y + self.Iy * self.integral_y
-                
+
                 # Round off to 2 decimel points.
-                self.valx = round(self.valx,2) 
-                self.valy = round(self.valy,2)
+                self.valx = round(self.valx,2)
 
                 # Left: Value is too negative.
                 if (self.valx <= -self.threshold):
@@ -137,7 +131,7 @@ class Object_Recognition:
                     self.instruction = 6
 
                 self.finished = True
-            
+
 
                 frame = cv2.rectangle(frame,(x,y),(self.x + self.w, self.y + self.h),(255, 0, 0), 6)
                 # cv2.putText(frame, "Default_Object", (left, y), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2)
@@ -147,16 +141,16 @@ class Object_Recognition:
                 # Do nothing for 10 milliseconds (0.01 seconds)
                 await self.sendTO_Arduino(0.01)
 
-                
+
             cv2.imshow('frame',frame) #display image
 
             key = cv2.waitKey(1) & 0xFF
             if key == ord("q"):
                 return
-        
+
         cv2.destroyAllWindows()
 
-    
+
     async def sendTO_Arduino(self, delay):
 
         self.ser.flush();
@@ -167,7 +161,6 @@ class Object_Recognition:
         self.ser.write(send_Xerror.encode('utf-8'))
         # self.ser.write(send_Yerror)
 
-        # DEBUG only: 
         # Receive data from the Arduino
         receive_string = self.ser.readline().decode('utf-8').rstrip()
 
