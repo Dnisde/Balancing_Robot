@@ -5,8 +5,8 @@
 Team: Arduino Self-Balancing Robot: 
 
 
-- Sensors : Accelerometers + Gyroscopes
-- Communication Interface : GPIO 
+- Sensors : Accelerometers + Gyroscopes + Photoelectric sensors + Ultrasonic sensors
+- Communication Interface : Serial Port
 
 ## Reference and useful Link: 
 
@@ -14,6 +14,6 @@ Team: Arduino Self-Balancing Robot:
 
 2. [ELEGOO Tumbller Self-Balancing Robot Car Kit](https://www.amazon.com/gp/product/B07QWJH77V/ref=ox_sc_act_title_1?smid=A2WWHQ25ENKVJ1&th=1)
 
-
+3. More...
 
 
