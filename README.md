@@ -1,4 +1,4 @@
-# Balancing_Robot
+# Spontaneous Obstacle Avoidance and Following Robots
 
 ### This is the Repository about final project of EC545 - Boston University.
 
